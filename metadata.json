@@ -1,0 +1,7 @@
+{
+  "name": "paper-pharm_v2",
+  "description": "예시 및 ui 수정 중",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}

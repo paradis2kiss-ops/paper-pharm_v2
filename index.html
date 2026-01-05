@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>종이약국 | 당신을 위한 책 처방</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Preconnect to Image CDNs for faster loading -->
+    <link rel="preconnect" href="https://contents.kyobobook.co.kr" crossorigin>
+    <link rel="preconnect" href="https://cover.aladin.co.kr" crossorigin>
+    <link rel="preconnect" href="https://image.aladin.co.kr" crossorigin>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    <style>
+      @font-face {
+          font-family: 'Cafe24Ssurround';
+          src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/Cafe24Ssurround.woff') format('woff');
+          font-weight: normal;
+          font-style: normal;
+      }
+      
+      /* Base font size adjustment */
+      html {
+        font-size: 100%; 
+      }
+      
+      body {
+        font-family: 'Pretendard', 'Malgun Gothic', 'Segoe UI', sans-serif;
+      }
+      
+      .font-title {
+        font-family: 'Gaegu', cursive;
+      }
+      
+      .font-surround {
+        font-family: 'Cafe24Ssurround', 'Pretendard', 'Malgun Gothic', sans-serif;
+      }
+
+      .text-shadow-sm { text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); }
+      
+      /* Custom scrollbar */
+      .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+      
+      /* Light Mode Scrollbar */
+      .custom-scrollbar::-webkit-scrollbar-track { background: rgba(0,0,0,0.05); border-radius: 10px; }
+      .custom-scrollbar::-webkit-scrollbar-thumb { background: #D4A574; border-radius: 10px; }
+      
+      /* Dark Mode Scrollbar (Dawn Theme) */
+      .dark .custom-scrollbar::-webkit-scrollbar-track { background: rgba(255,255,255,0.1); }
+      .dark .custom-scrollbar::-webkit-scrollbar-thumb { background: #9B7FBC; }
+
+      /* Dynamic Backgrounds */
+      :root {
+        --brick-color: #D4A574;
+        --brick-bg: #F4E8D0;
+      }
+      .dark {
+        --brick-color: #6B5FA5;
+        --brick-bg: transparent; /* Handled by main gradient */
+      }
+
+      #brick-bg {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        background-color: var(--brick-bg);
+        background-image: 
+          linear-gradient(335deg, var(--brick-color) 23px, transparent 23px),
+          linear-gradient(155deg, var(--brick-color) 23px, transparent 23px),
+          linear-gradient(335deg, var(--brick-color) 23px, transparent 23px),
+          linear-gradient(155deg, var(--brick-color) 23px, transparent 23px);
+        background-size: 58px 58px;
+        background-position: 0px 2px, 4px 35px, 29px 31px, 34px 6px;
+        opacity: 0.05;
+        transition: opacity 0.5s ease;
+      }
+      
+      /* Noise Texture for Parchment/Night mode */
+      .noise-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 1;
+        opacity: 0.07;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+      }
+
+      /* Cherry Blossom Animation */
+      @keyframes fall {
+        0% { top: -10%; opacity: 0.8; transform: translateX(0) rotate(0); }
+        100% { top: 110%; opacity: 0; transform: translateX(calc(var(--sway) * 1px)) rotate(calc(var(--rot) * 1deg)); }
+      }
+
+      .petal {
+        position: fixed;
+        background-color: #ffc0cb; 
+        border-radius: 150px 0;
+        box-shadow: 0 0 5px rgba(255, 192, 203, 0.5);
+        z-index: 0;
+        pointer-events: none;
+        animation: fall linear infinite;
+      }
+      
+      /* Mobile text adjustments */
+      @media (max-width: 640px) {
+        .word-keep {
+          word-break: keep-all;
+        }
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.553.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.29.1"
+  }
+}
+</script>
+<script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            // Day Palette (Old Bookshelf - Warm & Cozy)
+            'day-bg': '#F4E8D0',     // Cream Page
+            'day-card': '#E8DCC4',   // Dark Beige
+            'day-text': '#5D4E37',   // Dark Brown
+            'day-sub': '#8B7355',    // Light Brown
+            'day-accent': '#D4A574', // Golden Ochre
+            'day-btn': '#C9B896',    // Sand
+            'day-btn-shadow': 'rgba(93, 78, 55, 0.15)',
+
+            // Night Palette (Dawn Gradient - Deep Purple to Sunrise Pink)
+            'night-bg-start': '#1A1633',
+            'night-text': '#F5F1F8', // Bright Cream/Lavender
+            'night-sub': '#D4C5E8',  // Pale Lavender
+            'night-accent': '#FFFFFF', // Pure White
+            'night-card': 'rgba(107, 95, 165, 0.6)', // Glassy Purple
+            'night-btn': 'rgba(74, 59, 127, 0.5)',   // Darker Purple Glass
+            'night-cta': '#6B5FA5',  // Vivid Purple
+            'night-scroll': 'rgba(212, 165, 212, 0.3)', // Mobile parchment bg
+          },
+          backgroundImage: {
+            'dawn-gradient': 'linear-gradient(to bottom, #1A1633 0%, #2D2557 20%, #4A3B7F 40%, #6B5FA5 60%, #9B7FBC 80%, #D4A5D4 100%)',
+          },
+          fontFamily: {
+            'title': ['Gaegu', 'cursive'],
+            'surround': ['Cafe24Ssurround', 'Pretendard', 'Malgun Gothic', 'sans-serif'],
+            'body': ['Pretendard', 'Malgun Gothic', 'Segoe UI', '-apple-system', 'sans-serif'],
+          },
+          boxShadow: {
+            'day': '0 4px 6px -1px rgba(93, 78, 55, 0.15)',
+            'night': '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
+            // Enhanced parchment shadow for rolled effect
+            'parchment': '0 20px 50px -12px rgba(0, 0, 0, 0.4), inset 0 15px 30px -5px rgba(0,0,0,0.08), inset 0 -15px 30px -5px rgba(0,0,0,0.08)',
+          }
+        }
+      }
+    }
+  </script>
+</head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+  </body>
+</html>
