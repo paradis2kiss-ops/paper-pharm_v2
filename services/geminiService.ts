@@ -7,7 +7,7 @@ const getBookRecommendations = async (
   excludeTitles: string[] = [],
   location: { latitude: number, longitude: number } | null = null
 ): Promise<BookRecommendation[]> => {
-  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+  const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY });
 
   const schema = {
     type: Type.ARRAY,
